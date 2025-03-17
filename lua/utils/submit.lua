@@ -1,3 +1,5 @@
+local buffer = require('utils.buffer')
+
 local M = {}
 
 function M.submit()
@@ -8,9 +10,9 @@ function M.submit()
   local chosen_file = vim.w.chosen_file
 
   -- Salvar o conteúdo do buffer atual no arquivo
-  save_buffer_to_file(current_buf, chosen_file)
+  buffer.save_buffer_to_file(current_buf, chosen_file)
 
-  local dir = "/home/kild/Documents/Projects/leetcode-nvim/algorithms/cplusplus/array/twosum/"
+  local dir = "/home/kild/Documents/Projects/lua/leetcode-nvim/algorithms/cplusplus/array/twosum/"
   local cpp_files = dir .. "main.cpp " .. dir .. "solution.h"
   local output_executable = dir .. "main"
 
@@ -20,14 +22,14 @@ function M.submit()
   -- Compilar os arquivos
   local compile_result = vim.fn.system(compile_command)
   if compile_result ~= "" then
-    vim.api.nvim_err_writeln("Erro ao compilar: " .. compile_result)
+		vim.api.nvim_echo({{ "Erro ao compilar " .. compile_result }}, true, { err = true })
     return
   end
 
   -- Executar o programa compilado e capturar a saída
   local output = vim.fn.system(output_executable)
   if output == "" then
-    vim.api.nvim_err_writeln("Nenhuma saída foi gerada.")
+		vim.api.nvim_echo({ { "Nenhuma saída foi gerada." } }, false, {})
     return
   end
 

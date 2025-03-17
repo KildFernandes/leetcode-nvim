@@ -4,10 +4,8 @@ local M = {}
 
 ---@param path string[]
 function M.create_floating_window(path)
-  local base_dir = "/home/kild/Documents/Projects/leetcode-nvim/algorithms/cplusplus/array"
-
   -- Escolher um subdiretório aleatório
-  local chosen_dir = getdir.load_random_subdirectory(base_dir)
+  local chosen_dir = getdir.load_random_subdirectory(path)
   if not chosen_dir then
     return
   end
@@ -37,9 +35,9 @@ function M.create_floating_window(path)
   })
 
   -- Definir opções do buffer
-  vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-  vim.api.nvim_buf_set_option(buf, "modifiable", true)
-  vim.api.nvim_buf_set_option(buf, "filetype", "cpp")
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = buf })
+  vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
+  vim.api.nvim_set_option_value("filetype", "cpp", { buf = buf })
 
   local chosen_file = chosen_dir .. "/" .. "solution.h"
 
